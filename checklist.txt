@@ -1,0 +1,217 @@
+************
+LOCAL SYSTEM
+************
+
+-------------------
+Forensics Questions
+-------------------
+Do the easy ones, save the time-intensive ones to do during updates
+
+-----------
+Update Bash
+-----------
+sudo apt-get install --only-upgrade bash
+
+--------------------
+Update Script Arrays
+--------------------
+Set the correct users in the user script
+
+Make the scripts executable
+chmod 755 [script_name].sh
+
+-------------------------
+Run Basic Scanning Script
+-------------------------
+pam_cracklib - enforces password quality checks
+pam_limits - enforces resource limits on user accounts
+pam_motd - prints a message on the screen after the user logs in
+pam_tally - enforces a maximum number of unsuccessful login attempts
+pam_time - limits access to services by time
+
+firewall???? <-----------------------------------------------------------
+
+/var/log/auth.log
+check past sudo commands
+sudoers:
+%admin ALL=(ALL) ALL
+%sudo ALL=(ALL:ALL)
+
+auditd:
+you should probably figure out how audits work
+
+common-password:
+pam-unix.so -> remember=5 minlen=8
+pam_cracklib.so -> ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1
+password required pam_unix.so use_authtok md5
+password required pam_cracklib.so retry=1 minlen=6 difok=3
+
+login.defs:
+PASS_MAX_AGE: 90
+PASS_MIN_AGE: 10
+PASS_WARN_AGE: 7
+
+common-auth:
+auth required pam_tally2.so deny=5 onerr=fail unlock_time=1800
+
+--------------------------------------????
+rkhunter
+
+iptables and ip6tables
+
+check for cron jobs
+
+force sudo to authenticate
+
+--------
+Bastille
+--------
+sudo aptitude update
+sudo aptitude -y upgrade
+sudo aptitude install -y bastille
+aptitude install perl-tk
+sudo bastille -x
+
+-----------
+Permissions
+-----------
+sudo chmod -R 444 /var/log # read permission to everyone
+sudo chmod 440 /etc/passwd # read permission to current user and other members of group
+sudo chmod 440 /etc/shadow
+sudo chmod 440 /etc/group
+sudo chmod -R 444 /etc/ssh
+
+-----------------------------
+Neutralize Dangerous Services
+-----------------------------
+sudo apt-cache search [key]
+sudo apt-get remove [package]
+
+Disable the r suite of utilities (like rexec and rlogin) in bum (sudo bum)
+
+sudo apt-get purge telnet
+
+sudo apt-get purge nc
+
+sudo apt-get purge john
+
+sudo service postgresql stop
+killall postgresqld         #just in case
+
+service snmp stop
+service pop3 stop
+service icmp stop
+service sendmail stop
+service dovecot stop
+
+----------------------------
+Check for unauthorized users
+----------------------------
+Check /etc/hosts
+
+---------
+Antivirus
+---------
+Run ClamTK antivirus
+
+---------------
+Run User Script
+---------------
+lightdm:
+allow-guest=false
+
+Adduser
+choose "No"
+GUI Settings
+
+------------
+GUI Settings
+------------
+Go through each setting in the GUI, especially the firewall and updates
+
+--------------
+System Updates
+--------------
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
+
+----------------
+Restart Computer
+----------------
+
+----------------
+Firefox Settings
+----------------
+
+************
+Server Stuff
+************
+
+---
+FTP
+---
+prevent from being anonymous
+
+user directories use chroot
+
+---
+SSH
+---
+START SSHD
+
+/etc/ssh/sshd_config:
+Remove insecure Protocol 1
+Protocol 2
+PermitRootLogin no
+PermitEmptyPasswords no
+X11Forwarding no
+UsePAM yes
+
+make key required for every login
+
+---
+SQL
+---
+
+prevent from being anonymous
+
+--------------------------------------
+Get Rid of Insecure Stuff (If You Can)
+--------------------------------------
+sudo apt-get remove --purge samba
+
+sudo apt-get purge vsftpd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NEW STUFF
+/etc/passwd
+uid 0?
+
+cd /home
+sudo ls -Ra *
+
+
+PASS_MIN_DAYS 7
+PASS_MAX_DAYS 90
+PASS_WARN_AGE 14
+
+sudo ss -ln
+sudo lsof -i :$port
+
+sysctl -n net.ipv4.tcp_syncookies

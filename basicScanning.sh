@@ -28,6 +28,11 @@ sudo passwd -l root
 echo -e "${blue}root user disabled"
 tput sgr0
 
+#install chrootkit
+sudo apt-get install chkrootkit
+echo -e "${blue}chrootkit installed"
+tput sgr0
+
 #install bum
 sudo apt-get install bum
 echo -e "${blue}bum installed"
