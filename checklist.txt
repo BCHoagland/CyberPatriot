@@ -91,12 +91,14 @@ Disable the r suite of utilities (like rexec and rlogin) in bum (sudo bum)
 
 sudo apt-get purge telnet
 
-sudo apt-get purge nc
+sudo apt-get purge nmap
+
+sudo apt-get purge netcat
 
 sudo apt-get purge john
 
 sudo service postgresql stop
-killall postgresqld         #just in case
+killall postgresqld         #just in case <!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 service snmp stop
 service pop3 stop
